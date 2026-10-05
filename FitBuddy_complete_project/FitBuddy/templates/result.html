@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="result-head"><div><span class="badge">{{ "UPDATED PLAN" if is_updated else "PERSONALIZED PLAN" }}</span>
+<h1>Hi, {{ user.name }}!</h1><p>{{ user.goal|title }} • {{ user.intensity|title }} intensity • ID: {{ user.user_id }}</p></div>
+<a class="secondary" href="/">New plan</a></section>
+<div class="profile-grid">
+<div><span>Name</span><strong>{{ user.name }}</strong></div><div><span>Age</span><strong>{{ user.age }}</strong></div>
+<div><span>Weight</span><strong>{{ user.weight }} kg</strong></div><div><span>Goal</span><strong>{{ user.goal|title }}</strong></div>
+<div><span>Intensity</span><strong>{{ user.intensity|title }}</strong></div></div>
+<section class="card"><div class="section-title"><h2>7-day workout plan</h2><span class="status">{{ "AI revised" if is_updated else "Original" }}</span></div>
+<pre class="plan">{{ display_plan }}</pre></section>
+<section class="card tip"><h2>Nutrition / recovery tip</h2><p>{{ plan.nutrition_tip }}</p></section>
+<section class="card"><h2>Refine your plan</h2><p class="muted">Try feedback such as more cardio, more recovery, or a different focus.</p>
+<form action="/submit-feedback" method="post"><input type="hidden" name="user_id" value="{{ user.user_id }}">
+<textarea name="feedback" required maxlength="2000" placeholder="Add more cardio and keep Day 7 as a full rest day."></textarea>
+<button class="primary" type="submit">Update with feedback</button></form></section>
+{% if plan.feedback %}<section class="card"><h2>Last feedback</h2><p>{{ plan.feedback }}</p></section>{% endif %}
+{% endblock %}

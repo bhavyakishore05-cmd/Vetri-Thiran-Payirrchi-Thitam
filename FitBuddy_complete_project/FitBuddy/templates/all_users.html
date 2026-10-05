@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="result-head"><div><span class="badge">All Users / COACH VIEW</span><h1>All users</h1><p>Review stored profiles and compare original and updated plans.</p></div><a class="secondary" href="/">Generate plan</a></section>
+{% if not users %}<section class="card empty"><h2>No users yet</h2><p>Generate your first plan from the home page.</p></section>
+{% else %}<section class="card table-wrap"><table><thead><tr><th>User</th><th>Profile</th><th>Goal</th><th>Original</th><th>Updated</th><th>Action</th></tr></thead><tbody>
+{% for user in users %}<tr><td><strong>{{ user.name }}</strong><br><small>{{ user.user_id }}</small></td>
+<td>{{ user.age }} yrs<br>{{ user.weight }} kg</td><td>{{ user.goal|title }}<br>{{ user.intensity|title }}</td>
+<td><details><summary>View</summary><pre class="mini">{{ user.original_plan }}</pre></details></td>
+<td>{% if user.updated_plan %}<details><summary>View</summary><pre class="mini">{{ user.updated_plan }}</pre></details>{% else %}—{% endif %}</td>
+<td><form action="/delete-user/{{ user.user_id }}" method="post" onsubmit="return confirmDelete()"><button class="danger">Delete</button></form></td></tr>
+{% endfor %}</tbody></table></section>{% endif %}
+{% endblock %}
